@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { font-family:'Plus Jakarta Sans', Verdana, sans-serif; -webkit-font-smoothing:antialiased; background:#f4f1ee; color:#23303a; }
+    h1,h2,h3 { letter-spacing:-.02em; }
+    a { text-decoration:none; color:inherit; }
+    section { scroll-margin-top:78px; }
+    @keyframes ovfade { from { opacity:0; } to { opacity:1; } }
+    @keyframes sheetin { from { opacity:0; transform:translateY(18px) scale(.99); } to { opacity:1; transform:none; } }
+    @keyframes bootpulse{ 0%,100%{ opacity:1; transform:scale(1); } 50%{ opacity:.75; transform:scale(.94); } }
+    .ov { animation:ovfade .18s ease; }
+    .ov2 { animation:ovfade .18s ease; }
+    .sheet { animation:sheetin .24s cubic-bezier(.2,.7,.3,1); }
+    .adpanel { animation:sheetin .24s cubic-bezier(.2,.7,.3,1); }
+    textarea::placeholder { color:#b3bac1; }
+    @media (max-width:880px){ .hero-deco{ display:none !important; } }
+    @media (max-width:720px){
+      .navlinks{ flex:1 1 0; min-width:0; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; justify-content:flex-end; gap:6px !important; }
+      .navlinks::-webkit-scrollbar{ display:none; }
+      .navlinks a{ font-size:.8rem !important; padding:7px 13px !important; white-space:nowrap; background:#82378C12 !important; color:#82378C !important; font-weight:700 !important; }
+      .brand span:last-child{ font-size:1.06rem !important; }
+      .hero-inner{ padding:46px 22px 52px !important; }
+      .hero-cta{ flex-direction:column; align-items:stretch !important; gap:11px !important; margin-top:28px !important; }
+      .hero-cta a{ width:100%; justify-content:center; font-size:1.02rem !important; padding:16px 22px !important; }
+      .sec{ padding-top:40px !important; padding-left:20px !important; padding-right:20px !important; }
+      .diag-card{ flex-direction:column; text-align:center; align-items:center !important; padding:30px 24px !important; gap:18px !important; }
+      .diag-card .diag-body{ min-width:0 !important; }
+      .diag-cta{ width:100%; justify-content:center; font-size:1rem !important; padding:15px 22px !important; }
+      .ov{ padding:14px 11px !important; }
+      .mhead{ padding:24px 22px 22px !important; }
+      .foro-card{ padding:32px 24px !important; }
+    }
+    .appbar{ display:none; }
+    @keyframes sheetup{ from{ transform:translateY(100%); } to{ transform:none; } }
+    @media (max-width:720px){
+      body{ padding-bottom:calc(66px + env(safe-area-inset-bottom)); }
+      header nav{ padding:11px 16px !important; gap:12px !important; }
+      .navlinks{ display:none !important; }
+      #top > div:last-child{ padding:32px 20px 34px !important; }
+      .cardgrid{ grid-template-columns:1fr !important; gap:16px !important; }
+      .toolcard{ min-height:0 !important; }
+      .appbar{
+        display:flex; position:fixed; left:0; right:0; bottom:0; z-index:90;
+        background:rgba(255,255,255,.95); backdrop-filter:blur(16px);
+        border-top:1px solid #e7e1d4; box-shadow:0 -6px 20px rgba(35,48,58,.06);
+        padding:7px 6px calc(7px + env(safe-area-inset-bottom));
+        justify-content:space-around; align-items:stretch; gap:2px;
+      }
+      .appbar > a, .appbar > button{
+        flex:1 1 0; min-width:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:3px;
+        background:none; border:none; cursor:pointer; font-family:inherit;
+        color:#8a9199; font-size:10.5px; font-weight:700; padding:6px 2px; border-radius:14px;
+        -webkit-tap-highlight-color:transparent;
+      }
+      .appbar > a:active, .appbar > button:active{ background:#82378C10; }
+      .appbar svg{ width:23px; height:23px; }
+      .appbar > button{ color:#82378C; }
+      .ov, .ov2{ align-items:flex-end !important; padding:0 !important; overflow:hidden !important; }
+      .sheet, .adpanel{
+        max-width:100% !important; width:100% !important;
+        border-radius:22px 22px 0 0 !important;
+        max-height:92vh !important; margin:0 !important;
+        animation:sheetup .30s cubic-bezier(.2,.8,.25,1) !important;
+        display:flex !important; flex-direction:column !important;
+      }
+      .mhead, .ad-head{ flex-shrink:0; }
+      .sheet-body, .ad-body{
+        flex:1 1 auto !important; min-height:0 !important;
+        overflow-y:auto !important; -webkit-overflow-scrolling:touch;
+      }
+      .sheet::before, .adpanel::before{
+        content:""; position:absolute; top:9px; left:50%; transform:translateX(-50%);
+        width:44px; height:5px; border-radius:999px; background:rgba(255,255,255,.55); z-index:8; pointer-events:none;
+      }
+    }
+    @media (max-width:420px){
+      .appbar > a, .appbar > button{ font-size:10px; }
+      .appbar svg{ width:22px; height:22px; }
+    }
+    @media print {
+      @page { margin:13mm; }
+      body { background:#fff !important; }
+      .index, .no-print { display:none !important; }
+      .ov { position:static !important; inset:auto !important; background:#fff !important; backdrop-filter:none !important; padding:0 !important; display:block !important; overflow:visible !important; animation:none !important; }
+      .ov2 { position:static !important; inset:auto !important; background:#fff !important; backdrop-filter:none !important; padding:0 !important; display:block !important; overflow:visible !important; animation:none !important; }
+      .sheet, .adpanel { max-width:100% !important; box-shadow:none !important; border-radius:0 !important; margin:0 !important; animation:none !important; }
+      .sheet-body { overflow:visible !important; }
+      textarea { min-height:60px !important; }
+      * { -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
+    }
+  </style>
+</helmet>
+
+<div class="index">
+
+  <sc-if value="{{ showBoot }}" hint-placeholder-val="{{ true }}">
+    <div style="position:fixed; inset:0; z-index:9999; background:#faf9f5; display:flex; align-items:center; justify-content:center; transition:opacity .35s ease; opacity:{{ bootFading }};">
+      <svg width="72" height="72" viewBox="0 0 100 100" fill="none" style="border-radius:18px; box-shadow:0 10px 30px rgba(35,48,58,.18); animation:bootpulse 1.1s ease-in-out infinite;"><rect width="100" height="100" rx="22" fill="#23303a"></rect><rect x="26" y="28" width="20" height="44" rx="4" fill="#00a096"></rect><rect x="52" y="28" width="20" height="44" rx="4" fill="#82378C"></rect><circle cx="36" cy="38" r="3.4" fill="#fff"></circle><circle cx="62" cy="38" r="3.4" fill="#fff"></circle></svg>
+    </div>
+  </sc-if>
+
+  <header style="position:sticky; top:0; z-index:50; background:rgba(255,255,255,.92); backdrop-filter:blur(10px); border-bottom:1px solid #e7e1d4;">
+    <nav style="max-width:1120px; margin:0 auto; padding:13px 24px; display:flex; align-items:center; gap:24px;">
+      <a href="#top" class="brand" style="display:flex; align-items:center; gap:11px; flex-shrink:0;">
+        <svg width="36" height="36" viewBox="0 0 100 100" fill="none" style="flex-shrink:0;"><rect width="100" height="100" rx="22" fill="#23303a"></rect><rect x="26" y="28" width="20" height="44" rx="4" fill="#00a096"></rect><rect x="52" y="28" width="20" height="44" rx="4" fill="#82378C"></rect><circle cx="36" cy="38" r="3.4" fill="#fff"></circle><circle cx="62" cy="38" r="3.4" fill="#fff"></circle></svg>
+        <span style="font-size:1.14rem; font-weight:800; letter-spacing:-.02em; line-height:1.05;"><span style="color:#23303a;">Herramientas</span> <span style="color:#82378C;">para el aula</span></span>
+      </a>
+      <div class="navlinks" style="margin-left:auto; display:flex; align-items:center; gap:8px;">
+        <a href="#recursos" style="font-size:.92rem; font-weight:600; color:#5b6770; padding:8px 13px; border-radius:999px;" style-hover="background:#82378C12; color:#82378C;">Autodiagnóstico</a>
+        <a href="#recursos" style="font-size:.92rem; font-weight:600; color:#5b6770; padding:8px 13px; border-radius:999px;" style-hover="background:#82378C12; color:#82378C;">Herramientas</a>
+        <a href="#foro" style="font-size:.92rem; font-weight:600; color:#5b6770; padding:8px 13px; border-radius:999px;" style-hover="background:#82378C12; color:#82378C;">Foro</a>
+      </div>
+    </nav>
+  </header>
+
+  <section id="top" style="position:relative; overflow:hidden; background:#f4ecf7; border-bottom:1px solid #e6dcec;">
+    <div style="position:absolute; right:-90px; top:-90px; width:280px; height:280px; border-radius:50%; background:#00a09612;"></div>
+    <div style="position:absolute; right:52px; top:0; bottom:0; display:flex; align-items:center; gap:9px;" class="hero-deco">
+      <span style="width:16px; height:70px; border-radius:8px; background:#00a096;"></span>
+      <span style="width:16px; height:104px; border-radius:8px; background:#82378C;"></span>
+      <span style="width:16px; height:52px; border-radius:8px; background:#FFC800;"></span>
+      <span style="width:16px; height:80px; border-radius:8px; background:#5AC8F0;"></span>
+    </div>
+    <div style="position:relative; z-index:2; max-width:1120px; margin:0 auto; padding:44px 24px 40px;">
+      <div style="max-width:660px;">
+        <div style="display:inline-flex; align-items:center; gap:8px; font-size:12px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; color:#82378C; background:#82378C12; padding:7px 14px; border-radius:999px;"><i data-lucide="library" style="width:14px; height:14px;"></i>Repositorio</div>
+        <h1 style="font-size:clamp(2.2rem, 4.6vw, 3.2rem); font-weight:800; line-height:1.04; margin:16px 0 14px; color:#23303a;">Herramientas para el aula</h1>
+        <p style="font-size:clamp(1.05rem, 2vw, 1.22rem); line-height:1.5; color:#5b6770; max-width:600px; margin-bottom:10px;">Un espacio para encontrar recursos para enseñar Pensamiento Computacional, fortaleciendo la participación y la confianza en el aula.</p>
+        <p style="font-size:clamp(1rem, 1.8vw, 1.12rem); line-height:1.5; color:#5b6770; max-width:600px;">Empezá por el <strong style="color:#82378C; font-weight:600;">autodiagnóstico</strong>, explorá las <strong style="color:#82378C; font-weight:600;">tarjetas</strong> y compartí tus experiencias con colegas en el <strong style="color:#82378C; font-weight:600;">foro</strong>.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="recursos" class="sec" style="max-width:1120px; margin:0 auto; padding:40px 24px 20px;">
+
+    <div class="no-print" style="display:flex; align-items:center; gap:9px; flex-wrap:wrap; margin-bottom:26px;">
+      <span style="display:inline-flex; align-items:center; gap:7px; font-size:.8rem; font-weight:800; letter-spacing:.06em; text-transform:uppercase; color:#9aa1a8; margin-right:4px;"><i data-lucide="list-filter" style="width:15px; height:15px;"></i>Filtrar</span>
+      <sc-for list="{{ filterChips }}" as="chip" hint-placeholder-count="4">
+        <button onclick="{{ chip.set }}" style="display:inline-flex; align-items:center; gap:8px; font-size:.9rem; font-weight:700; padding:9px 16px; border-radius:999px; cursor:pointer; font-family:inherit; background:{{ chip.bg }}; color:{{ chip.color }}; border:1.5px solid {{ chip.border }};">
+          <span style="width:9px; height:9px; border-radius:999px; background:{{ chip.dot }};"></span>{{ chip.label }}
+        </button>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ showAutodiag }}" hint-placeholder-val="{{ true }}">
+      <div class="diag-card" style="position:relative; overflow:hidden; background:#faf6fb; border:1.5px solid #e7d9ea; border-radius:22px; padding:30px 34px; display:flex; align-items:center; gap:28px; flex-wrap:wrap; margin-bottom:26px;">
+        <div style="position:absolute; left:-40px; top:-40px; width:150px; height:150px; border-radius:50%; background:#82378C0a;"></div>
+        <div style="position:relative; z-index:2; width:72px; height:72px; flex-shrink:0; border-radius:20px; background:#82378C; display:flex; align-items:center; justify-content:center;"><i data-lucide="compass" style="width:34px; height:34px; color:#fff;"></i></div>
+        <div class="diag-body" style="position:relative; z-index:2; flex:1; min-width:260px;">
+          <div style="display:flex; align-items:center; gap:9px; margin-bottom:9px;">
+            <span style="font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#82378C; background:#82378C18; padding:5px 11px; border-radius:999px;">Autodiagnóstico</span>
+          </div>
+          <h2 style="font-size:1.42rem; font-weight:800; line-height:1.18; margin-bottom:8px; color:#23303a;">Empezá por acá</h2>
+          <p style="font-size:1rem; line-height:1.5; color:#5b6770; max-width:560px;">Antes de explorar las tarjetas, tomate unos minutos para <strong style="color:#82378C; font-weight:700;">reflexionar sobre tu rol</strong> en las clases de Pensamiento Computacional. Son <strong style="color:#82378C; font-weight:700;">6 preguntas</strong>, sin respuestas correctas o incorrectas.</p>
+        </div>
+        <button onclick="{{ startAd }}" class="diag-cta" style="position:relative; z-index:2; display:inline-flex; align-items:center; gap:9px; background:#82378C; color:#fff; border:none; font-size:.95rem; font-weight:800; padding:14px 22px; border-radius:999px; font-family:inherit; white-space:nowrap; cursor:pointer;" style-hover="opacity:.92;"><i data-lucide="arrow-right" style="width:17px; height:17px;"></i>{{ adCtaLabel }}</button>
+      </div>
+    </sc-if>
+
+    <div class="cardgrid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(310px, 1fr)); gap:22px;">
+      <sc-for list="{{ visibleTools }}" as="tool" hint-placeholder-count="6">
+        <div onclick="{{ tool.open }}" class="toolcard" style="position:relative; overflow:hidden; cursor:pointer; background:{{ tool.color }}; border-radius:24px; display:flex; flex-direction:column; min-height:300px; color:#fff; box-shadow:0 12px 28px {{ tool.shadow }}; transition:transform .16s ease, box-shadow .16s ease;" style-hover="transform:translateY(-6px); box-shadow:0 26px 50px {{ tool.shadow }};">
+          <div style="position:absolute; right:-70px; bottom:-90px; width:230px; height:230px; border-radius:50%; background:rgba(255,255,255,.09);"></div>
+          <div style="position:absolute; right:18px; top:18px; font-size:4.2rem; font-weight:800; line-height:1; color:rgba(255,255,255,.16);">{{ tool.n }}</div>
+          <span style="position:absolute; left:80px; top:26px; width:9px; height:9px; border-radius:999px; background:{{ tool.accent }};"></span>
+          <span style="position:absolute; left:100px; top:46px; width:6px; height:6px; border-radius:999px; background:rgba(255,255,255,.5);"></span>
+          <div style="position:relative; z-index:2; padding:24px 24px 22px; display:flex; flex-direction:column; gap:14px; flex:1;">
+            <div style="width:62px; height:62px; border-radius:18px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,.2);"><i data-lucide="{{ tool.icon }}" style="width:32px; height:32px; color:#fff;"></i></div>
+            <div>
+              <span style="display:inline-flex; align-items:center; gap:6px; font-size:10.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:rgba(255,255,255,.92); margin-bottom:9px;"><span style="width:6px; height:6px; border-radius:999px; background:{{ tool.accent }};"></span>{{ tool.catLabel }}</span>
+              <h3 style="font-size:1.32rem; font-weight:800; line-height:1.16; color:#fff; margin-bottom:9px;">{{ tool.title }}</h3>
+              <span style="display:inline-flex; align-items:center; gap:6px; font-size:.78rem; font-weight:600; color:rgba(255,255,255,.85); background:rgba(255,255,255,.14); padding:5px 11px; border-radius:999px;"><i data-lucide="clock" style="width:13px; height:13px;"></i>{{ tool.momento }}</span>
+            </div>
+            <div>
+              <div style="font-size:.7rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:rgba(255,255,255,.7); margin-bottom:8px;">Qué vas a encontrar</div>
+              <div style="display:flex; flex-direction:column; gap:7px;">
+                <sc-for list="{{ tool.encontras }}" as="e" hint-placeholder-count="3">
+                  <div style="display:flex; gap:9px; align-items:flex-start;"><i data-lucide="check" style="width:15px; height:15px; flex-shrink:0; margin-top:2px; color:{{ tool.accent }};"></i><span style="font-size:.9rem; line-height:1.4; color:rgba(255,255,255,.94);">{{ e }}</span></div>
+                </sc-for>
+              </div>
+            </div>
+            <div onclick="{{ tool.open }}" style="margin-top:auto; display:inline-flex; align-items:center; justify-content:center; gap:9px; background:#fff; color:{{ tool.color }}; font-size:.95rem; font-weight:800; padding:13px 18px; border-radius:999px; box-shadow:0 6px 16px rgba(0,0,0,.12);">Abrí la herramienta <i data-lucide="arrow-right" style="width:17px; height:17px;"></i></div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="foro" class="sec" style="max-width:1120px; margin:0 auto; padding:54px 24px 60px;">
+    <div class="foro-card" style="position:relative; overflow:hidden; background:#00a096; color:#fff; border-radius:26px; padding:46px 44px;">
+      <div style="position:absolute; right:-80px; bottom:-110px; width:280px; height:280px; border-radius:50%; background:rgba(255,255,255,.08);"></div>
+      <div style="position:relative; z-index:2; display:flex; gap:36px; align-items:center; flex-wrap:wrap;">
+        <div style="flex:1; min-width:280px;">
+          <span style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.18); font-size:11.5px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:7px 14px; border-radius:999px;"><i data-lucide="messages-square" style="width:14px; height:14px;"></i>Comunidad</span>
+          <h2 style="font-size:clamp(1.8rem, 3.2vw, 2.3rem); font-weight:800; line-height:1.1; margin:16px 0 12px;">Compartí con docentes</h2>
+          <p style="font-size:1.08rem; line-height:1.55; color:rgba(255,255,255,.94); max-width:480px;">Un espacio para <strong style="color:#fff; font-weight:800;">intercambiar</strong> sobre el uso de las herramientas en clase.</p>
+          <div style="display:flex; flex-direction:column; gap:10px; margin:22px 0 26px;">
+            <div style="display:flex; gap:10px; align-items:center;"><i data-lucide="check-circle-2" style="width:18px; height:18px; color:#CFF5DF;"></i><span style="font-size:1rem; color:rgba(255,255,255,.95);">Qué herramienta probaste y cómo te fue</span></div>
+            <div style="display:flex; gap:10px; align-items:center;"><i data-lucide="check-circle-2" style="width:18px; height:18px; color:#CFF5DF;"></i><span style="font-size:1rem; color:rgba(255,255,255,.95);">Qué observaste en la participación de tu grupo</span></div>
+            <div style="display:flex; gap:10px; align-items:center;"><i data-lucide="check-circle-2" style="width:18px; height:18px; color:#CFF5DF;"></i><span style="font-size:1rem; color:rgba(255,255,255,.95);">Qué te resultó y qué mejorarías</span></div>
+          </div>
+          <button type="button" onclick="{{ openForo }}" style="display:inline-flex; align-items:center; gap:10px; background:#fff; color:#00857c; font-size:1rem; font-weight:800; padding:15px 26px; border-radius:999px; box-shadow:0 10px 24px rgba(0,0,0,.16); border:none; cursor:pointer; font-family:inherit;" style-hover="opacity:.93;"><i data-lucide="users" style="width:19px; height:19px;"></i>Sumate al grupo en CREA</button>
+        </div>
+        <div style="flex:0 0 250px; display:flex; align-items:center; justify-content:center;">
+          <svg viewBox="0 0 260 230" width="260" height="230" style="max-width:100%; height:auto; display:block;" role="img" aria-label="Ilustración de docentes intercambiando ideas">
+            <rect x="26" y="16" width="104" height="46" rx="15" fill="rgba(255,255,255,.18)"></rect>
+            <circle cx="52" cy="39" r="5" fill="#fff"></circle><circle cx="72" cy="39" r="5" fill="#fff"></circle><circle cx="92" cy="39" r="5" fill="#fff"></circle>
+            <path d="M150 30 l6.5 13 14 4 -14 4 -6.5 13 -6.5 -13 -14 -4 14 -4z" fill="#FFC800"></path>
+            <rect x="158" y="64" width="78" height="40" rx="13" fill="rgba(255,255,255,.18)"></rect>
+            <path d="M178 84 h38 M178 94 h24" stroke="#fff" stroke-width="4" stroke-linecap="round" opacity=".85"></path>
+            <path d="M214 150 l5.5 11 12 3.5 -12 3.5 -5.5 11 -5.5 -11 -12 -3.5 12 -3.5z" fill="#50AF32"></path>
+            <g><circle cx="60" cy="136" r="20" fill="#fff"></circle><path d="M30 212 v-13 a30 30 0 0 1 60 0 v13z" fill="#82378C"></path></g>
+            <g><circle cx="130" cy="124" r="23" fill="#fff"></circle><path d="M95 212 v-15 a35 35 0 0 1 70 0 v15z" fill="#FFC800"></path></g>
+            <g><circle cx="200" cy="136" r="20" fill="#fff"></circle><path d="M170 212 v-13 a30 30 0 0 1 60 0 v13z" fill="#5AC8F0"></path></g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="background:#2a1a33; color:#fff;">
+    <div style="max-width:1120px; margin:0 auto; padding:52px 24px 40px; display:flex; flex-wrap:wrap; gap:40px; justify-content:space-between; align-items:center;">
+      <div style="max-width:400px;">
+        <div style="display:flex; align-items:center; gap:11px; margin-bottom:16px;">
+          <svg width="34" height="34" viewBox="0 0 100 100" fill="none"><rect width="100" height="100" rx="22" fill="#fff"></rect><rect x="26" y="28" width="20" height="44" rx="4" fill="#00a096"></rect><rect x="52" y="28" width="20" height="44" rx="4" fill="#82378C"></rect></svg>
+          <span style="font-size:1.15rem; font-weight:800;">Herramientas para el aula</span>
+        </div>
+        <p style="font-size:.98rem; line-height:1.55; color:rgba(255,255,255,.7); margin-bottom:8px;">Herramientas para enseñar Pensamiento Computacional.</p>
+        <p style="font-size:.98rem; line-height:1.55; color:rgba(255,255,255,.7);">Un recurso de <strong style="color:rgba(255,255,255,.92); font-weight:700;">Ceibal</strong> para las y los docentes de aula.</p>
+      </div>
+      <img src="assets/ceibal-logo.png" alt="Ceibal" style="height:52px; width:auto; flex-shrink:0; filter:brightness(0) invert(1);">
+    </div>
+    <div style="border-top:1px solid rgba(255,255,255,.12);">
+      <div style="max-width:1120px; margin:0 auto; padding:18px 24px; display:flex; flex-wrap:wrap; gap:16px 28px; justify-content:space-between; align-items:center;">
+        <span style="font-size:.88rem; color:rgba(255,255,255,.5);">© 2026 · Pensamiento Computacional</span>
+        <div style="display:flex; gap:24px; flex-wrap:wrap;">
+          <a href="#recursos" style="font-size:.9rem; font-weight:600; color:rgba(255,255,255,.7);" style-hover="color:#fff;">Autodiagnóstico</a>
+          <a href="#recursos" style="font-size:.9rem; font-weight:600; color:rgba(255,255,255,.7);" style-hover="color:#fff;">Herramientas</a>
+          <a href="#foro" style="font-size:.9rem; font-weight:600; color:rgba(255,255,255,.7);" style-hover="color:#fff;">Foro</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <nav class="appbar no-print" aria-label="Navegación">
+    <a href="#top"><i data-lucide="home"></i><span class="lab">Inicio</span></a>
+    <a href="#recursos"><i data-lucide="layout-grid"></i><span class="lab">Recursos</span></a>
+    <button type="button" onclick="{{ startAd }}"><i data-lucide="compass"></i><span class="lab">Autotest</span></button>
+    <a href="#foro"><i data-lucide="messages-square"></i><span class="lab">Foro</span></a>
+  </nav>
+
+</div>
+
+<sc-if value="{{ foroOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="ov" onclick="{{ closeForo }}" style="position:fixed; inset:0; z-index:100; background:rgba(15,32,44,.55); backdrop-filter:blur(4px); display:flex; align-items:flex-start; justify-content:center; padding:28px 20px; overflow-y:auto;">
+    <div class="sheet" onclick="{{ stop }}" style="position:relative; width:100%; max-width:560px; background:#fff; border-radius:22px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.35); margin:auto;">
+      <button onclick="{{ closeForo }}" style="position:absolute; top:16px; right:16px; z-index:6; width:36px; height:36px; border:none; border-radius:999px; background:rgba(255,255,255,.22); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;" style-hover="background:rgba(255,255,255,.34);"><i data-lucide="x" style="width:19px; height:19px;"></i></button>
+      <div class="mhead" style="background:#00a096; color:#fff; padding:30px 30px 26px;">
+        <span style="display:inline-flex; align-items:center; gap:8px; background:rgba(255,255,255,.18); font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:6px 13px; border-radius:999px;"><i data-lucide="users" style="width:14px; height:14px;"></i>Comunidad</span>
+        <h3 style="font-size:1.5rem; font-weight:800; line-height:1.15; margin:14px 0 6px; max-width:90%;">Sumate al grupo en CREA</h3>
+        <p style="font-size:1rem; line-height:1.5; color:rgba(255,255,255,.92);">Seguí estos pasos para unirte al grupo de docentes.</p>
+      </div>
+      <div class="sheet-body" style="padding:26px 30px 30px;">
+        <ol style="list-style:none; margin:0 0 22px; padding:0; display:flex; flex-direction:column; gap:16px;">
+        <li style="display:flex; gap:14px; align-items:flex-start;">
+          <span style="flex:0 0 30px; width:30px; height:30px; border-radius:999px; background:#00a096; color:#fff; font-weight:800; font-size:.95rem; display:flex; align-items:center; justify-content:center;">1</span>
+          <span style="font-size:1rem; line-height:1.5; color:#243845; padding-top:3px;">Ingresá a <strong style="font-weight:800;">CREA</strong> con tu usuario y contraseña.</span>
+        </li>
+        <li style="display:flex; gap:14px; align-items:flex-start;">
+          <span style="flex:0 0 30px; width:30px; height:30px; border-radius:999px; background:#00a096; color:#fff; font-weight:800; font-size:.95rem; display:flex; align-items:center; justify-content:center;">2</span>
+          <span style="font-size:1rem; line-height:1.5; color:#243845; padding-top:3px;">En el menú lateral, abrí la sección <strong style="font-weight:800;">Grupos</strong>.</span>
+        </li>
+        <li style="display:flex; gap:14px; align-items:flex-start;">
+          <span style="flex:0 0 30px; width:30px; height:30px; border-radius:999px; background:#00a096; color:#fff; font-weight:800; font-size:.95rem; display:flex; align-items:center; justify-content:center;">3</span>
+          <span style="font-size:1rem; line-height:1.5; color:#243845; padding-top:3px;">Tocá <strong style="font-weight:800;">Unirme a un grupo</strong>.</span>
+        </li>
+        <li style="display:flex; gap:14px; align-items:flex-start;">
+          <span style="flex:0 0 30px; width:30px; height:30px; border-radius:999px; background:#00a096; color:#fff; font-weight:800; font-size:.95rem; display:flex; align-items:center; justify-content:center;">4</span>
+          <span style="font-size:1rem; line-height:1.5; color:#243845; padding-top:3px;">Escribí el <strong style="font-weight:800;">código del grupo</strong> (abajo) y confirmá.</span>
+        </li>
+        <li style="display:flex; gap:14px; align-items:flex-start;">
+          <span style="flex:0 0 30px; width:30px; height:30px; border-radius:999px; background:#00a096; color:#fff; font-weight:800; font-size:.95rem; display:flex; align-items:center; justify-content:center;">5</span>
+          <span style="font-size:1rem; line-height:1.5; color:#243845; padding-top:3px;">¡Listo! Ya formás parte del grupo.</span>
+        </li>
+        </ol>
+        <div style="background:#f3faf9; border:1.5px dashed #7fd0c9; border-radius:16px; padding:16px 18px;">
+          <div style="font-size:11px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:#00857c; margin-bottom:8px;">Código del grupo</div>
+          <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
+            <code style="font-family:ui-monospace, SFMono-Regular, Menlo, monospace; font-size:1.25rem; font-weight:800; letter-spacing:.04em; color:#0c3b37;">S38K-2MHB-SV5RS</code>
+            <button onclick="{{ copyCrea }}" style="display:inline-flex; align-items:center; gap:7px; background:#00a096; color:#fff; border:none; cursor:pointer; font-family:inherit; font-size:.9rem; font-weight:700; padding:9px 15px; border-radius:999px;" style-hover="opacity:.9;">
+              <sc-if value="{{ creaCopied }}" hint-placeholder-val="{{ false }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>Copiado</sc-if>
+              <sc-if value="{{ creaNotCopied }}" hint-placeholder-val="{{ true }}"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path></svg>Copiar</sc-if>
+            </button>
+          </div>
+        </div>
+        <a href="https://ceibal.edu.uy/institucional/articulos/como-me-uno-un-grupo-en-crea/" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:7px; margin-top:18px; font-size:.92rem; font-weight:700; color:#00857c; text-decoration:none;" style-hover="text-decoration:underline;"><i data-lucide="external-link" style="width:15px; height:15px;"></i>Ver la guía completa</a>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ modalOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="ov" onclick="{{ closeModal }}" style="position:fixed; inset:0; z-index:100; background:rgba(15,32,44,.55); backdrop-filter:blur(4px); display:flex; align-items:flex-start; justify-content:center; padding:28px 20px; overflow-y:auto;">
+    <div class="sheet" onclick="{{ stop }}" style="position:relative; width:100%; max-width:720px; background:#fff; border-radius:22px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.35); margin:auto;">
+      <button class="no-print" onclick="{{ closeModal }}" style="position:absolute; top:16px; right:16px; z-index:6; width:36px; height:36px; border:none; border-radius:999px; background:rgba(255,255,255,.2); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;" style-hover="background:rgba(255,255,255,.34);"><i data-lucide="x" style="width:19px; height:19px;"></i></button>
+      <div class="mhead" style="background:{{ active.color }}; color:#fff; padding:30px 34px 26px;">
+        <sc-if value="{{ active.fromAd }}">
+          <button class="no-print" onclick="{{ backToAd }}" style="display:inline-flex; align-items:center; gap:8px; background:#FFC800; color:#3a2140; border:none; font-size:.92rem; font-weight:800; padding:10px 18px; border-radius:999px; cursor:pointer; font-family:inherit; margin-bottom:16px; box-shadow:0 6px 18px rgba(0,0,0,.18);" style-hover="background:#ffd433;"><i data-lucide="arrow-left" style="width:16px; height:16px;"></i>Volver a mi devolución</button>
+        </sc-if>
+        <span style="display:inline-flex; align-items:center; gap:7px; background:rgba(255,255,255,.18); font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:6px 13px; border-radius:999px;"><span style="width:7px; height:7px; border-radius:999px; background:#fff;"></span>{{ active.catLabel }}</span>
+        <div style="display:flex; align-items:flex-start; gap:16px; margin-top:16px;">
+          <div style="width:56px; height:56px; flex-shrink:0; border-radius:15px; background:rgba(255,255,255,.18); display:flex; align-items:center; justify-content:center;"><i data-lucide="{{ active.icon }}" style="width:28px; height:28px;"></i></div>
+          <div>
+            <h2 style="font-size:1.5rem; font-weight:800; line-height:1.14;">{{ active.title }}</h2>
+            <p style="font-size:1rem; line-height:1.5; color:rgba(255,255,255,.92); margin-top:7px;">{{ active.desc }}</p>
+          </div>
+        </div>
+        <div style="display:inline-flex; align-items:center; gap:7px; margin-top:16px; background:rgba(255,255,255,.14); padding:7px 14px; border-radius:999px; font-size:.82rem; font-weight:600;"><i data-lucide="clock" style="width:14px; height:14px;"></i>Cuándo usarla: {{ active.momento }}</div>
+      </div>
+      <div class="sheet-body" style="padding:24px 34px 30px;">
+        <sc-if value="{{ active.hasPorque }}">
+          <div style="background:{{ active.tint }}; border-left:4px solid {{ active.color }}; border-radius:0 14px 14px 0; padding:16px 20px; margin-bottom:26px;">
+            <div style="display:flex; align-items:center; gap:8px; margin-bottom:8px;"><i data-lucide="help-circle" style="width:16px; height:16px; color:{{ active.color }};"></i><span style="font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:{{ active.color }};">Por qué importa</span></div>
+            <sc-if value="{{ active.porqueLead }}"><p style="font-size:1.06rem; line-height:1.4; font-weight:800; color:#23303a; margin-bottom:8px;">{{ active.porqueLead }}</p></sc-if>
+            <sc-if value="{{ active.stat }}">
+              <div style="background:#fff; border:1.5px solid {{ active.color }}33; border-radius:14px; padding:15px 18px; margin-bottom:12px;">
+                <span style="display:inline-flex; align-items:center; gap:6px; font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:{{ active.color }}; margin-bottom:8px;"><i data-lucide="sparkles" style="width:13px; height:13px;"></i>¿Sabías qué?</span>
+                <p style="font-size:1rem; line-height:1.5; color:#374151;">{{ active.stat.text }}</p>
+                <span style="display:block; font-size:.78rem; font-style:italic; color:#9aa1a8; margin-top:6px;">{{ active.stat.source }}</span>
+              </div>
+            </sc-if>
+            <sc-for list="{{ active.porqueParas }}" as="para" hint-placeholder-count="2">
+              <p style="font-size:.98rem; line-height:1.55; color:#5b6770; margin-bottom:10px;">{{ para }}</p>
+            </sc-for>
+            <sc-if value="{{ active.revisa }}">
+              <div style="padding:2px 2px 0;">
+                <span style="display:inline-flex; align-items:center; gap:6px; font-size:.72rem; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:{{ active.color }}; margin-bottom:8px;"><i data-lucide="search" style="width:13px; height:13px;"></i>{{ active.revisa.label }}</span>
+                <p style="font-size:1rem; line-height:1.5; color:#374151;">{{ active.revisa.text }}</p>
+              </div>
+            </sc-if>
+          </div>
+        </sc-if>
+        <sc-for list="{{ active.blocks }}" as="block" hint-placeholder-count="3">
+          <div style="margin-bottom:24px;">
+            <div style="display:flex; align-items:center; gap:9px; padding-bottom:9px; border-bottom:1px solid #ede8dc; margin-bottom:13px;">
+              <i data-lucide="{{ block.hIcon }}" style="width:18px; height:18px; color:{{ active.color }};"></i>
+              <span style="font-size:.78rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:{{ active.color }};">{{ block.label }}</span>
+            </div>
+            <sc-if value="{{ block.isPrompts }}">
+              <div style="display:flex; flex-direction:column; gap:9px;">
+                <sc-for list="{{ block.items }}" as="it" hint-placeholder-count="3">
+                  <div style="display:flex; gap:11px; align-items:flex-start;"><span style="flex-shrink:0; width:7px; height:7px; border-radius:999px; margin-top:8px; background:{{ active.color }};"></span><span style="font-size:1rem; line-height:1.55; color:#374151;">{{ it }}</span></div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ block.isCheck }}">
+              <sc-for list="{{ block.items }}" as="item" hint-placeholder-count="3">
+                <div onclick="{{ item.toggle }}" style="display:flex; gap:13px; align-items:flex-start; padding:11px 0; border-bottom:1px solid #f1ece1; cursor:pointer;">
+                  <div style="flex-shrink:0; width:22px; height:22px; border-radius:6px; border:2px solid {{ active.color }}; background:{{ item.boxBg }}; display:flex; align-items:center; justify-content:center; margin-top:1px;">
+                    <sc-if value="{{ item.checked }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></sc-if>
+                  </div>
+                  <span style="font-size:1rem; line-height:1.5; color:#374151;">{{ item.text }}</span>
+                </div>
+              </sc-for>
+            </sc-if>
+            <sc-if value="{{ block.isIdeas }}">
+              <div style="display:flex; flex-direction:column; gap:12px;">
+                <sc-for list="{{ block.items }}" as="idea" hint-placeholder-count="2">
+                  <div style="background:{{ active.tint }}; border-radius:13px; padding:15px 17px;">
+                    <div style="font-size:1rem; font-weight:800; color:{{ active.color }}; margin-bottom:8px;">{{ idea.label }}</div>
+                    <sc-if value="{{ idea.quote }}"><div style="font-size:.97rem; line-height:1.5; color:#374151; font-style:italic; padding-left:12px; border-left:3px solid {{ active.color }};">{{ idea.quote }}</div></sc-if>
+                    <sc-if value="{{ idea.hasLines }}">
+                      <div style="display:flex; flex-direction:column; gap:6px;">
+                        <sc-for list="{{ idea.lines }}" as="ln" hint-placeholder-count="3"><div style="display:flex; gap:9px; align-items:flex-start;"><span style="flex-shrink:0; width:6px; height:6px; border-radius:999px; margin-top:8px; background:{{ active.color }};"></span><span style="font-size:.96rem; line-height:1.5; color:#374151;">{{ ln }}</span></div></sc-for>
+                      </div>
+                    </sc-if>
+                    <sc-if value="{{ idea.foot }}"><div style="font-size:.89rem; line-height:1.45; color:#6b7280; margin-top:9px;">{{ idea.foot }}</div></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ block.isStrategies }}">
+              <div style="display:flex; flex-direction:column; gap:14px;">
+                <sc-for list="{{ block.items }}" as="st" hint-placeholder-count="2">
+                  <div style="border:1.5px solid {{ active.tintBorder }}; border-radius:16px; overflow:hidden; background:#fff;">
+                    <div style="display:flex; align-items:center; gap:12px; background:{{ active.tint }}; padding:13px 16px;">
+                      <span style="flex-shrink:0; width:30px; height:30px; border-radius:999px; background:{{ active.color }}; color:#fff; font-weight:800; font-size:1rem; display:flex; align-items:center; justify-content:center;">{{ st.n }}</span>
+                      <span style="font-size:1.05rem; font-weight:800; color:#23303a; line-height:1.2;">{{ st.title }}</span>
+                    </div>
+                    <div style="padding:15px 17px;">
+                      <sc-if value="{{ st.hasSteps }}">
+                        <div style="display:flex; flex-direction:column; gap:11px;">
+                          <sc-for list="{{ st.steps }}" as="sp" hint-placeholder-count="3">
+                            <div style="display:flex; gap:12px; align-items:flex-start;">
+                              <span style="flex-shrink:0; min-width:78px; text-align:center; background:{{ active.color }}; color:#fff; font-size:.82rem; font-weight:800; padding:5px 10px; border-radius:999px;">{{ sp.t }}</span>
+                              <span style="flex:1; font-size:.97rem; line-height:1.45; color:#374151; padding-top:2px;">{{ sp.d }}</span>
+                            </div>
+                          </sc-for>
+                        </div>
+                      </sc-if>
+                      <sc-if value="{{ st.quote }}">
+                        <div style="display:flex; gap:11px; align-items:flex-start;">
+                          <i data-lucide="quote" style="width:20px; height:20px; flex-shrink:0; color:{{ active.color }};"></i>
+                          <span style="flex:1; font-size:1rem; line-height:1.5; color:#374151; font-style:italic;">{{ st.quote }}</span>
+                        </div>
+                      </sc-if>
+                      <div style="display:flex; gap:8px; align-items:flex-start; margin-top:13px; padding-top:12px; border-top:1px solid #f1ece1;">
+                        <i data-lucide="arrow-right-circle" style="width:16px; height:16px; flex-shrink:0; margin-top:2px; color:{{ active.color }};"></i>
+                        <span style="flex:1; font-size:.9rem; line-height:1.45; color:#6b7280;">{{ st.takeaway }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ block.isTerms }}">
+              <div style="display:flex; flex-direction:column; gap:10px;">
+                <sc-for list="{{ block.items }}" as="t" hint-placeholder-count="4">
+                  <div style="display:flex; align-items:center; gap:11px; flex-wrap:wrap;">
+                    <span style="font-size:.94rem; color:#9aa1a8; text-decoration:line-through;">{{ t.antes }}</span>
+                    <i data-lucide="arrow-right" style="width:15px; height:15px; flex-shrink:0; color:{{ active.color }};"></i>
+                    <span style="font-size:.97rem; font-weight:700; color:#23303a;">{{ t.despues }}</span>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ block.foot }}"><div style="font-size:.92rem; line-height:1.5; color:#6b7280; margin-top:4px; background:{{ active.tint }}; border-radius:11px; padding:12px 14px;">{{ block.foot }}</div></sc-if>
+              </div>
+            </sc-if>
+            <sc-if value="{{ block.isNote }}">
+              <div style="background:{{ active.tint }}; border-radius:13px; padding:8px 6px;">
+                <sc-for list="{{ block.items }}" as="it" hint-placeholder-count="2"><div style="display:flex; gap:11px; align-items:flex-start; padding:8px 14px;"><i data-lucide="{{ it.icon }}" style="width:17px; height:17px; flex-shrink:0; margin-top:2px; color:{{ active.color }};"></i><span style="flex:1;"><span style="display:block; font-size:.96rem; line-height:1.5; color:#374151;">{{ it.text }}</span><sc-if value="{{ it.sub }}"><span style="display:block; font-size:.85rem; line-height:1.4; font-style:italic; color:#9aa1a8; margin-top:2px;">{{ it.sub }}</span></sc-if></span></div></sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ block.isCheckgroups }}">
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <sc-for list="{{ block.groups }}" as="grp" hint-placeholder-count="2">
+                  <div>
+                    <div style="font-size:.92rem; font-weight:800; color:{{ active.color }}; margin-bottom:7px;">{{ grp.title }}</div>
+                    <sc-for list="{{ grp.items }}" as="item" hint-placeholder-count="3">
+                      <div onclick="{{ item.toggle }}" style="display:flex; gap:12px; align-items:center; padding:9px 0; border-bottom:1px solid #f1ece1; cursor:pointer;">
+                        <div style="flex-shrink:0; width:21px; height:21px; border-radius:6px; border:2px solid {{ active.color }}; background:{{ item.boxBg }}; display:flex; align-items:center; justify-content:center;">
+                          <sc-if value="{{ item.checked }}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg></sc-if>
+                        </div>
+                        <span style="font-size:.98rem; line-height:1.45; color:#374151;">{{ item.text }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+            <sc-if value="{{ block.isWrite }}">
+              <div style="background:{{ active.tint }}; border-radius:14px; padding:15px 17px;">
+                <p style="font-size:.97rem; line-height:1.45; font-weight:600; color:#374151; margin-bottom:9px;">{{ block.prompt }}</p>
+                <textarea oninput="{{ block.onInput }}" value="{{ block.value }}" placeholder="Escribí acá…" rows="2" style="width:100%; min-height:54px; resize:vertical; border:1.5px solid {{ active.color }}; border-radius:11px; padding:10px 12px; font-family:inherit; font-size:.95rem; line-height:1.5; color:#1f2937; outline:none; background:#fff;"></textarea>
+              </div>
+            </sc-if>
+            <sc-if value="{{ block.isForo }}">
+              <a href="#foro" onclick="{{ closeModal }}" style="display:flex; align-items:center; gap:15px; background:#00a0960f; border:1.5px solid #00a09640; border-radius:15px; padding:16px 18px; text-decoration:none;" style-hover="background:#00a0961a; border-color:#00a096;">
+                <span style="flex-shrink:0; width:44px; height:44px; border-radius:12px; background:#00a096; display:flex; align-items:center; justify-content:center;"><i data-lucide="messages-square" style="width:22px; height:22px; color:#fff;"></i></span>
+                <span style="flex:1;">
+                  <span style="display:block; font-size:.72rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#00857c; margin-bottom:3px;">Compartí con docentes</span>
+                  <span style="display:block; font-size:.96rem; line-height:1.4; color:#23303a; font-weight:600;">{{ block.text }}</span>
+                </span>
+                <i data-lucide="arrow-right" style="width:19px; height:19px; flex-shrink:0; color:#00a096;"></i>
+              </a>
+            </sc-if>
+          </div>
+        </sc-for>
+        <div style="margin-top:22px; padding-top:18px; border-top:1px solid #ede8dc; display:flex; align-items:center; justify-content:flex-end; gap:14px; flex-wrap:wrap;">
+          <button class="no-print" onclick="{{ saveFicha }}" style="display:inline-flex; align-items:center; gap:9px; background:{{ active.color }}; color:#fff; border:none; border-radius:999px; padding:12px 22px; font-weight:800; font-size:.92rem; cursor:pointer; font-family:inherit;" style-hover="opacity:.9;"><i data-lucide="download" style="width:17px; height:17px;"></i>Guardá tu ficha</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</sc-if>
+
+<sc-if value="{{ adOpen }}" hint-placeholder-val="{{ false }}">
+  <div class="ov2" onclick="{{ closeAd }}" style="position:fixed; inset:0; z-index:110; background:rgba(15,32,44,.6); backdrop-filter:blur(4px); display:flex; align-items:flex-start; justify-content:center; padding:28px 20px; overflow-y:auto;">
+    <div class="adpanel" onclick="{{ stop }}" style="position:relative; width:100%; max-width:640px; background:#fff; border-radius:22px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.4); margin:auto;">
+      <button onclick="{{ closeAd }}" style="position:absolute; top:15px; right:15px; z-index:6; width:34px; height:34px; border:none; border-radius:999px; background:rgba(255,255,255,.2); color:#fff; cursor:pointer; display:flex; align-items:center; justify-content:center;" style-hover="background:rgba(255,255,255,.34);"><i data-lucide="x" style="width:18px; height:18px;"></i></button>
+
+      <div class="ad-head" style="background:#82378C; color:#fff; padding:24px 30px 22px;">
+        <div style="display:flex; align-items:center; gap:10px;"><i data-lucide="compass" style="width:20px; height:20px;"></i><span style="font-size:12px; font-weight:800; letter-spacing:.1em; text-transform:uppercase;">Autodiagnóstico</span></div>
+        <sc-if value="{{ adIsQuestion }}">
+          <div style="margin-top:16px;">
+            <div style="display:flex; justify-content:space-between; font-size:.8rem; font-weight:600; color:rgba(255,255,255,.85); margin-bottom:7px;"><span>{{ adProgressLabel }}</span><span>{{ adDimension }}</span></div>
+            <div style="height:6px; border-radius:999px; background:rgba(255,255,255,.22); overflow:hidden;"><div style="height:100%; border-radius:999px; background:#7FD957; width:{{ adProgressPct }}; transition:width .3s ease;"></div></div>
+          </div>
+        </sc-if>
+      </div>
+
+      <sc-if value="{{ adIsQuestion }}">
+        <div class="ad-body" style="padding:26px 30px 24px;">
+          <h2 style="font-size:1.3rem; font-weight:800; line-height:1.25; color:#23303a; margin-bottom:20px;">{{ adQuestionText }}</h2>
+          <div style="display:flex; flex-direction:column; gap:11px;">
+            <sc-for list="{{ adOptions }}" as="opt" hint-placeholder-count="4">
+              <div onclick="{{ opt.select }}" style="display:flex; gap:14px; align-items:flex-start; padding:15px 17px; border:2px solid {{ opt.border }}; background:{{ opt.bg }}; border-radius:14px; cursor:pointer; transition:border-color .12s ease, background .12s ease;">
+                <span style="flex-shrink:0; width:28px; height:28px; border-radius:999px; background:{{ opt.chipBg }}; color:{{ opt.chipColor }}; font-weight:800; font-size:.9rem; display:flex; align-items:center; justify-content:center;">{{ opt.letter }}</span>
+                <span style="font-size:1rem; line-height:1.45; color:#374151; padding-top:3px;">{{ opt.text }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex; align-items:center; justify-content:space-between; gap:14px; margin-top:24px;">
+            <sc-if value="{{ adShowBack }}">
+              <button onclick="{{ adBack }}" style="display:inline-flex; align-items:center; gap:8px; background:transparent; color:#82378C; border:none; font-size:.95rem; font-weight:700; cursor:pointer; font-family:inherit; padding:10px 4px;"><i data-lucide="arrow-left" style="width:17px; height:17px;"></i>Atrás</button>
+            </sc-if>
+            <div style="flex:1;"></div>
+            <button onclick="{{ adNext }}" style="display:inline-flex; align-items:center; gap:9px; background:{{ adNextBg }}; color:#fff; border:none; font-size:.95rem; font-weight:800; padding:13px 24px; border-radius:999px; cursor:{{ adNextCursor }}; font-family:inherit;">{{ adNextLabel }} <i data-lucide="arrow-right" style="width:17px; height:17px;"></i></button>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ adIsResults }}">
+        <div class="ad-body" style="padding:28px 30px 30px;">
+          <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;"><div style="width:46px; height:46px; border-radius:14px; background:#82378C12; display:flex; align-items:center; justify-content:center;"><i data-lucide="sparkles" style="width:24px; height:24px; color:#82378C;"></i></div><div><div style="font-size:11px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#82378C;">Gracias por reflexionar</div><div style="font-size:1.2rem; font-weight:800; color:#23303a;">Tu devolución</div></div></div>
+          <p style="font-size:.92rem; line-height:1.5; color:#9aa1a8; margin-bottom:14px;">No hay respuestas correctas o incorrectas: este autodiagnóstico es simplemente una invitación a mirar tu propia práctica.</p>
+          <div style="background:#82378C0f; border-left:4px solid #82378C; border-radius:0 14px 14px 0; padding:16px 20px; margin-bottom:24px; display:flex; flex-direction:column; gap:11px;">
+            <sc-for list="{{ adMessage }}" as="para" hint-placeholder-count="3">
+              <p style="font-size:1.05rem; line-height:1.55; color:#374151;">{{ para }}</p>
+            </sc-for>
+          </div>
+          <div style="font-size:.78rem; font-weight:800; letter-spacing:.1em; text-transform:uppercase; color:#5b6770; margin-bottom:13px;">Te sugerimos empezar por</div>
+          <div style="display:flex; flex-direction:column; gap:11px; margin-bottom:24px;">
+            <sc-for list="{{ adRecs }}" as="rec" hint-placeholder-count="3">
+              <div onclick="{{ rec.open }}" style="display:flex; align-items:center; gap:14px; padding:14px 16px; border-radius:14px; background:#faf8f4; border:1px solid #eee3ec; cursor:pointer;" style-hover="background:#fff; border-color:{{ rec.color }};">
+                <div style="width:46px; height:46px; flex-shrink:0; border-radius:13px; background:{{ rec.color }}; display:flex; align-items:center; justify-content:center;"><i data-lucide="{{ rec.icon }}" style="width:23px; height:23px; color:#fff;"></i></div>
+                <div style="flex:1;"><div style="font-size:10px; font-weight:800; letter-spacing:.08em; text-transform:uppercase; color:{{ rec.color }}; margin-bottom:2px;">{{ rec.catLabel }}</div><div style="font-size:1rem; font-weight:700; line-height:1.2; color:#23303a;">{{ rec.title }}</div></div>
+                <i data-lucide="arrow-right" style="width:18px; height:18px; flex-shrink:0; color:{{ rec.color }};"></i>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex; gap:11px; align-items:flex-start; background:#faf8f4; border-radius:13px; padding:14px 16px; margin-bottom:24px;">
+            <i data-lucide="info" style="width:17px; height:17px; flex-shrink:0; margin-top:2px; color:#82378C;"></i>
+            <p style="font-size:.9rem; line-height:1.5; color:#6b7280;">{{ adCierre }}</p>
+          </div>
+          <div class="no-print" style="display:flex; gap:11px; flex-wrap:wrap;">
+            <button onclick="{{ saveAd }}" style="flex:1; min-width:180px; display:inline-flex; align-items:center; justify-content:center; gap:9px; background:#82378C; color:#fff; border:none; font-size:.95rem; font-weight:800; padding:14px 20px; border-radius:999px; cursor:pointer; font-family:inherit;" style-hover="opacity:.92;"><i data-lucide="download" style="width:17px; height:17px;"></i>Guardá tu devolución</button>
+            <button onclick="{{ restartAd }}" style="display:inline-flex; align-items:center; justify-content:center; gap:9px; background:#f1ece1; color:#5b6770; border:none; font-size:.95rem; font-weight:700; padding:14px 20px; border-radius:999px; cursor:pointer; font-family:inherit;" style-hover="background:#e7e1d4;"><i data-lucide="rotate-ccw" style="width:17px; height:17px;"></i>Repetir</button>
+            <button onclick="{{ goHerramientas }}" style="display:inline-flex; align-items:center; justify-content:center; gap:9px; background:#f1ece1; color:#5b6770; border:none; font-size:.95rem; font-weight:700; padding:14px 20px; border-radius:999px; cursor:pointer; font-family:inherit;" style-hover="background:#e7e1d4;"><i data-lucide="layout-grid" style="width:17px; height:17px;"></i>Ver todas las herramientas</button>
+          </div>
+        </div>
+      </sc-if>
+
+    </div>
+  </div>
+</sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1120,&quot;height&quot;:860}}">
+
+class Component extends DCLogic {
+  state = { open:null, checks:{}, radios:{}, texts:{}, dates:{}, adOpen:false, adStep:0, adAnswers:{}, fromAd:false, filter:"all", foroOpen:false, creaCopied:false, showBoot:true, bootFading:1 };
+
+  cats = {
+    obs: { label:"Observación", color:"#00a096" },
+    acc: { label:"Acción",      color:"#82378C" }
+  };
+
+  data = [
+    { cat:"obs", icon:"eye", title:"Observá la participación", slug:"observa-la-participacion",
+      desc:"Prestá atención a quiénes participan, quiénes lideran y quiénes quedan en segundo plano.",
+      momento:"Durante la clase",
+      encontras:["Preguntas guía para observar la dinámica","Una ficha rápida para marcar al cierre","Un espacio para compartir en el foro"],
+      porqueLead:"La participación no siempre se distribuye igual entre estudiantes.",
+      porque:"Observar estos patrones te ayuda a generar más oportunidades para que todas y todos desarrollen confianza y se involucren.",
+      blocks:[
+        { kind:"prompts", icon:"eye", label:"Durante la clase observá", items:[
+          "¿Quiénes *participan más*? ¿Quiénes *participan menos*?",
+          "¿Quiénes *manejan la computadora* durante la actividad?" ] },
+        { kind:"checkgroups", icon:"check-square", label:"Al finalizar, marcá lo que observaste", groups:[
+          { title:"Participación", items:["Predominaron los niños.","Predominaron las niñas.","Participaron de forma equilibrada."] },
+          { title:"Uso de la computadora", items:["Predominaron los niños.","Predominaron las niñas.","El uso fue equilibrado."] } ] },
+        { kind:"write", icon:"message-circle", label:"Para pensar",
+          prompt:"¿Algo de lo que observaste te llamó la atención?" },
+        { kind:"foro", text:"Te invitamos a compartirlo en el foro y así conocer experiencias de tus colegas." }
+      ] },
+
+    { cat:"obs", icon:"message-square-quote", title:"Feedback que impulsa", slug:"feedback-que-impulsa",
+      desc:"Observá qué aspectos reconocés al dar devoluciones en clase.",
+      momento:"Al dar devoluciones",
+      encontras:["Una autoevaluación de qué reconocés en clase","Un espacio para tu reflexión","Un espacio para compartir en el foro"],
+      porqueLead:"Las devoluciones que reciben las y los estudiantes influyen en cómo interpretan sus logros, dificultades y posibilidades de aprender.",
+      porque:"Cuando se centran en el proceso, ofrecen información para mejorar y favorecen que se animen a seguir intentando.",
+      blocks:[
+        { kind:"check", icon:"check-square", label:"Durante la clase, enfoqué mis devoluciones en…", items:[
+          "El *esfuerzo* o la persistencia.",
+          "Las *estrategias* o la forma de resolver.",
+          "Los *avances*, aunque sean pequeños.",
+          "Las *respuestas correctas* o el resultado final." ] },
+        { kind:"write", icon:"message-circle", label:"Para pensar",
+          prompt:"¿Qué mensaje quiero que transmitan mis devoluciones?" },
+        { kind:"foro", text:"Sumate a la conversación en el foro y comentalo con tus colegas." }
+      ] },
+
+    { cat:"acc", icon:"users-round", title:"Estrategias para distribuir la participación", slug:"estrategias-distribuir-participacion",
+      desc:"Pequeños cambios antes de pedir respuestas pueden hacer que más estudiantes se animen a participar.",
+      momento:"En la coordinación con el DR",
+      encontras:["Dos estrategias listas para proponer","Un espacio para tu reflexión","Un espacio para compartir en el foro"],
+      porqueLead:"Si pedís respuestas al instante, suelen participar siempre las mismas personas.",
+      porque:"Dar tiempo para pensar y anticipar la participación abre la oportunidad a más estudiantes.",
+      blocks:[
+        { kind:"strategies", icon:"lightbulb", label:"Dos estrategias para acordar con el docente remoto", items:[
+          { n:"1", title:"Pensá, conversá, compartí",
+            steps:[
+              { t:"Pensá", d:"30 segundos para pensar en forma individual." },
+              { t:"Conversá", d:"1 minuto en parejas o pequeños grupos." },
+              { t:"Compartí", d:"Invitá a compartir a estudiantes diferentes en cada actividad." }
+            ],
+            takeaway:"Así más estudiantes preparan una respuesta antes de hablar en público." },
+          { n:"2", title:"Aviso anticipado",
+            quote:"En unos minutos voy a pedir que algunas personas compartan qué piensan. Tómense un momento para prepararse.",
+            takeaway:"Anticipar la participación ayuda a que más personas se animen a intervenir." }
+        ] },
+        { kind:"write", icon:"message-circle", label:"Para pensar",
+          prompt:"¿Qué idea vas a probar?" },
+        { kind:"foro", text:"Entrá al foro, conocé qué se está probando en otras aulas y compartí tu propia experiencia." }
+      ] },
+
+    { cat:"acc", icon:"languages", title:"Lenguaje inclusivo y no estereotipado", slug:"lenguaje-inclusivo",
+      desc:"Evitá reforzar asociaciones de género con las disciplinas STEM, en todo momento de la clase.",
+      momento:"En todo momento",
+      encontras:["Una pregunta para revisar tu lenguaje","Reemplazos concretos para usar ya","Una idea para acordar con el grupo"],
+      porqueLead:"El lenguaje también enseña.",
+      stat:{ text:"¿Sabías que cuando se le pide a estudiantes que dibujen a alguien que trabaja en ciencia, el **73%** dibuja a un varón?", source:"Fuente: Miller et al. (2018)" },
+      revisa:{ label:"Primero revisá", text:"¿El **lenguaje** y los **ejemplos** que usás en clase, son **inclusivos**?" },
+      blocks:[
+        { kind:"terms", label:"Probá estos reemplazos", items:[
+          { antes:"los alumnos", despues:"las y los estudiantes · el estudiantado" },
+          { antes:"niños", despues:"niñas y niños · el grupo" },
+          { antes:"los científicos", despues:"científicas y científicos" },
+          { antes:"bienvenidos", despues:"bienvenidas y bienvenidos" }
+        ], foot:"También podés construir con el grupo *acuerdos de convivencia* que incluyan el lenguaje inclusivo, y colocar un *cartel visible* con ejemplos concretos." },
+        { kind:"write", icon:"handshake", label:"Para la próxima clase",
+          prompt:"¿Qué término o cambio vas a empezar a usar?" },
+        { kind:"foro", text:"Conocé qué términos están usando tus colegas y compartí los tuyos." }
+      ] },
+
+    { cat:"acc", icon:"shield-check", title:"Más confianza para enfrentar desafíos", slug:"mas-confianza",
+      desc:"Las dificultades y los errores son oportunidades para construir confianza en las propias capacidades.",
+      momento:"Ante un error o frustración",
+      encontras:["Frases para acompañar el error","Ideas para valorar la persistencia","Un acuerdo para la próxima clase"],
+      porqueLead:"La forma en que acompañamos los errores hace una diferencia.",
+      porque:[
+        "Cuando equivocarse no da miedo, más estudiantes se animan a participar, probar ideas nuevas y seguir aprendiendo.",
+        "Esto beneficia a todo el grupo y además, **puede ser especialmente importante para las niñas, que suelen tener menos confianza en STEM que los niños**, aun cuando les va igual de bien."
+      ],
+      blocks:[
+        { kind:"ideas", icon:"lightbulb", label:"Ideas para probar", items:[
+          { label:"Reconocé estrategias", quote:"Probaste *distintas opciones* hasta encontrar una solución." },
+          { label:"Normalizá los errores", quote:"Equivocarse *también es parte de aprender*." },
+          { label:"Valorá la persistencia", quote:"Seguiste *intentando* aunque era difícil." },
+          { label:"Preguntá antes de resolver", quote:"¿Qué podrías *probar ahora*?" }
+        ] },
+        { kind:"write", icon:"handshake", label:"Acuerdo para la próxima clase",
+          prompt:"¿Qué mensaje o estrategia vas a incorporar, y en qué momento?" },
+        { kind:"foro", text:"Inspirate y compartí con tus colegas en el foro." }
+      ] },
+
+    { cat:"acc", icon:"shuffle", title:"Diversificar los roles", slug:"diversificar-los-roles",
+      desc:"Que todas y todos asuman por igual los diferentes roles y tareas en PC (organizar, programar, presentar, etc.).",
+      momento:"Al armar grupos",
+      encontras:["Pasos para preparar los roles antes de empezar","Acciones concretas durante la clase","Un espacio para compartir en el foro"],
+      porqueLead:"Ciertos roles o tareas pueden recaer siempre en las mismas personas.",
+      porque:[
+        "Cuando estudiantes se organizan en equipos de trabajo por su cuenta, **es frecuente que las mismas personas asuman los mismos roles y tareas**.",
+        "*Por ejemplo, es común que los niños ocupen el rol de programar y que las niñas se encarguen de presentar el trabajo al resto del aula.*",
+        "**Esto no responde a diferencias de capacidad, sino a patrones** que se repiten sin que nos demos cuenta.",
+        "Por eso, **es importante que los roles roten** para que todos y todas puedan ganar confianza y desarrollar distintas habilidades."
+      ],
+      blocks:[
+        { kind:"note", label:"Antes de empezar la actividad", items:[
+          { icon:"target", text:"Identificá cuál será el *rol técnico principal*.", sub:"Por ejemplo: programar, manejar el dispositivo o construir." },
+          { icon:"history", text:"Pensá *quiénes ocuparon ese rol* en las últimas clases." },
+          { icon:"layout-grid", text:"Prepará tarjetas para asignar los roles a *todo el equipo*." } ] },
+        { kind:"links", label:"Recurso para imprimir", items:[
+          { icon:"printer", text:"Descargá las tarjetas de roles para recortar y repartir en el grupo", href:"Tarjetas de Roles.dc.html" } ] },
+        { kind:"check", label:"Durante la actividad", items:[
+          "Asigná el rol técnico a un/a estudiante que haya tenido *menos oportunidades* de desempeñarlo.",
+          "Explicá que *todos los integrantes* del equipo irán teniendo la oportunidad de asumir ese rol en distintas clases." ] },
+        { kind:"write", icon:"message-circle", label:"Para pensar",
+          prompt:"¿Qué pasó cuando organizaste los roles?" },
+        { kind:"foro", text:"Sumate a la conversación en el foro y comentalo ahí con tus colegas!" }
+      ] }
+  ];
+
+  adData = [
+    { dim:"obs", label:"Qué valorás", q:"¿Qué te parece importante promover en el grupo durante una clase de Pensamiento Computacional?",
+      opts:[ "Que desarrollen habilidades para resolver desafíos.",
+             "Que se interesen y disfruten las actividades.",
+             "Que aprendan a trabajar colaborativamente.",
+             "Que tengan la oportunidad de asumir distintos roles y participar." ] },
+    { dim:"obs", label:"Qué observás", q:"¿A qué solés prestar atención durante las clases de Pensamiento Computacional?",
+      opts:[ "A que todos y todas logren completar la actividad propuesta.",
+             "A que todos y todas  muestren interés y motivación.",
+             "A cómo se organizan los grupos y se distribuyen roles y tareas.",
+             "A quiénes participan más y quiénes participan menos." ] },
+    { dim:"obs", label:"Diferencias en la participación", q:"Según tu experiencia, ¿cuál de estas situaciones explica mejor que algunas personas participen menos durante la clase de Pensamiento Computacional?",
+      opts:[ "A que tienen intereses diferentes y eso se refleja en su participación.",
+             "A que tienen más experiencia o afinidad y se sienten más preparadas para participar.",
+             "A que la dinámica del grupo puede favorecer que algunas participen más que otras.",
+             "A que los mensajes y expectativas que reciben fuera del aula influyen en su confianza para participar." ] },
+    { dim:"acc", label:"Tu rol en el programa", q:"Pensando en tu rol durante las clases de Pensamiento Computacional, ¿cuál es tu principal aporte dentro del programa?",
+      opts:[ "Mi principal aporte es acompañar aspectos organizativos de la clase.",
+             "Mi principal aporte es brindar apoyo a estudiantes cuando lo necesitan.",
+             "Mi principal aporte es observar cómo participa el grupo y favorecer que todas las personas se involucren.",
+             "Mi principal aporte es planificar junto al docente remoto cómo organizar la participación y acompañar el aprendizaje del grupo." ] },
+    { dim:"acc", label:"Roles técnicos", q:"Si durante una actividad de programación en equipos observás que siempre son las mismas personas quienes usan el dispositivo, ¿qué harías primero?",
+      opts:[ "Confiar en que el equipo puede resolverlo por su cuenta",
+             "Conversar con el equipo para entender cómo se organizaron.",
+             "Animar a que prueben tareas diferentes.",
+             "Hablarlo en coordinación con tu Docente Remoto para planificar estrategias para diversificar los roles en la próxima clase." ] },
+    { dim:"acc", label:"Confianza", q:"Si una estudiante evita participar porque cree que “no es buena para Pensamiento Computacional”, ¿qué hacés?",
+      opts:[ "Respetar su decisión y acompañarla desde el rol que prefiera asumir.",
+             "Animarla a intentarlo.",
+             "Ayudarla a reconocer avances o logros concretos que ya alcanzó.",
+             "Generar oportunidades graduales para que gane confianza en ese tipo de tareas." ] }
+  ];
+
+  adProfiles = {
+    AA: {
+      msg:[ "Tus respuestas sugieren que **ya prestás atención a cómo se distribuye la participación en el aula**: quiénes se involucran, quiénes quedan afuera, cómo se organizan los equipos.",
+            "Y que cuando notás algo, *tenés recursos para intervenir*.",
+            "Las herramientas del kit te ofrecen formas concretas de llevar lo que ya observás a pequeñas acciones dentro del aula." ],
+      recs:[5,1,2] },
+    BA: {
+      msg:[ "Tus respuestas sugieren que **tenés disposición para acompañar a tus estudiantes y actuar cuando algo no funciona**.",
+            "Esa actitud es *el motor de cualquier cambio* en el aula.",
+            "Las herramientas del kit pueden ayudarte a conectar esa disposición con algunas dinámicas que a veces pasan desapercibidas: quiénes asumen roles técnicos, quiénes piden ayuda en voz alta y quiénes prefieren no hacerlo." ],
+      recs:[0,1,4] },
+    AB: {
+      msg:[ "Tus respuestas muestran que **prestás atención a lo que pasa en el aula**: notás cómo se organizan los equipos, quiénes participan más y quiénes menos.",
+            "Esa capacidad de observación es *el primer paso para cualquier cambio*.",
+            "Las herramientas del kit proponen acciones concretas para transformar observaciones en pequeñas decisiones fáciles de aplicar dentro del aula." ],
+      recs:[2,4,5] },
+    BB: {
+      msg:[ "Tus respuestas sugieren que **tu foco está puesto en acompañar a tus estudiantes en lo que necesitan momento a momento**.",
+            "Ese es un *punto de partida valioso para sumar nuevas formas de observar las dinámicas en el aula*.",
+            "Las herramientas del kit invitan a sumar una nueva mirada: prestar atención a algunas dinámicas de participación que pueden pasar desapercibidas, y probar pequeños cambios en su organización." ],
+      recs:[0,3,1] }
+  };
+  adCierre = "El kit completo tiene 6 tarjetas — a lo largo de estos meses vas a ir recibiendo propuestas para explorarlas todas.";
+
+  headerIcon(kind){
+    return ({ prompts:"list", check:"check-square", ideas:"lightbulb",
+      terms:"replace", note:"info", write:"message-circle",
+      checkgroups:"check-square", foro:"messages-square", strategies:"lightbulb" })[kind] || "circle";
+  }
+
+  componentDidMount(){
+    let savedAdAnswers = {};
+    try {
+      const s = JSON.parse(localStorage.getItem("aulaactiva") || "{}");
+      savedAdAnswers = s.adAnswers || {};
+      this.setState({
+        checks: s.checks || {}, radios: s.radios || {},
+        texts: s.texts || {}, dates: s.dates || {}, adAnswers: savedAdAnswers
+      });
+    } catch(e){}
+    const hash = (window.location.hash || "").replace("#","");
+    if(hash === "autodiagnostico" || hash === "autotest"){
+      const done = Object.keys(savedAdAnswers).length >= 6;
+      this.setState({ adOpen:true, adStep: done ? 6 : 0 });
+    } else if(hash){
+      const idx = this.data.findIndex(t => t.slug === hash);
+      if(idx !== -1) this.setState({ open: idx });
+    }
+    this._icons();
+    setTimeout(() => {
+      this.setState({ bootFading:0 });
+      setTimeout(() => this.setState({ showBoot:false }), 380);
+    }, 420);
+  }
+  componentDidUpdate(){ this._icons(); }
+  _icons(){
+    if(window.lucide && window.lucide.createIcons){ try { window.lucide.createIcons(); } catch(e){} }
+    else { setTimeout(()=>this._icons(), 120); }
+  }
+  persist(){
+    const { checks, radios, texts, dates, adAnswers } = this.state;
+    try { localStorage.setItem("aulaactiva", JSON.stringify({ checks, radios, texts, dates, adAnswers })); } catch(e){}
+  }
+  setCheck(k){ this.setState(s => ({ checks:{ ...s.checks, [k]: !s.checks[k] } }), () => this.persist()); }
+  setRadio(k,v){ this.setState(s => ({ radios:{ ...s.radios, [k]: v } }), () => this.persist()); }
+  setText(k,v){ this.setState(s => ({ texts:{ ...s.texts, [k]: v } }), () => this.persist()); }
+  openTool(i, fromAd){
+    const slug = this.data[i].slug;
+    if(slug) window.location.hash = slug;
+    this.setState({ open:i, adOpen: fromAd ? false : this.state.adOpen, fromAd: !!fromAd });
+  }
+
+  rich(str, color){
+    if(str == null) return str;
+    const parts = String(str).split(/\*([^*]+)\*/g);
+    return React.createElement(React.Fragment, null, parts.map((p,i) =>
+      i % 2 === 1 ? React.createElement("strong", { key:i, style:{ color, fontWeight:800 } }, p) : p
+    ));
+  }
+
+  richFull(str, boldColor){
+    if(str == null) return str;
+    const col = boldColor || "#82378C";
+    const nodes = [];
+    let key = 0;
+    String(str).split(/\*\*([^*]+)\*\*/g).forEach((seg, bi) => {
+      if(bi % 2 === 1){
+        nodes.push(React.createElement("strong", { key:key++, style:{ color:col, fontWeight:800 } }, seg));
+      } else if(seg){
+        seg.split(/\*([^*]+)\*/g).forEach((s, ii) => {
+          if(ii % 2 === 1) nodes.push(React.createElement("em", { key:key++, style:{ fontStyle:"italic", color:"#8a929b" } }, s));
+          else if(s) nodes.push(React.createElement(React.Fragment, { key:key++ }, s));
+        });
+      }
+    });
+    return React.createElement(React.Fragment, null, nodes);
+  }
+
+  computeProfile(){
+    const { adAnswers } = this.state;
+    let obs = 0, acc = 0;
+    this.adData.forEach((q,qi) => {
+      const a = adAnswers[qi];
+      if(a === undefined) return;
+      if(a >= 2){
+        if(q.dim === "obs") obs++; else acc++;
+      }
+    });
+    const obsHigh = obs >= 2, accHigh = acc >= 2;
+    const key = (obsHigh ? "A" : "B") + (accHigh ? "A" : "B");
+    return this.adProfiles[key];
+  }
+
+  computeRecs(){ return this.computeProfile().recs; }
+  recsMessage(){ return this.computeProfile().msg; }
+
+  renderVals(){
+    const { open, checks, radios, texts, adOpen, adStep, adAnswers, filter, showBoot, bootFading } = this.state;
+    const tint = (c) => c + "14";
+    const VIOLET = "#82378C";
+    const R = (s) => this.rich(s, open!=null ? this.cats[this.data[open].cat].color : "#000");
+
+    const hexShadow = (hex) => {
+      const h = hex.replace("#",""); const r=parseInt(h.slice(0,2),16),g=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);
+      return `rgba(${r},${g},${b},.34)`;
+    };
+    const accents = ["#FFC800","#F09100","#FFC800","#50AF32","#FFC800","#5AC8F0"];
+    const tools = this.data.map((t,i) => {
+      const c = this.cats[t.cat].color;
+      return { title:t.title, icon:t.icon, momento:t.momento, catKey:t.cat,
+        catLabel:this.cats[t.cat].label, color:c, tint:tint(c),
+        shadow:hexShadow(c), accent:accents[i % accents.length],
+        n:String(i+1).padStart(2,"0"),
+        encontras:t.encontras, open:() => this.openTool(i) };
+    });
+
+    const chipDefs = [
+      { key:"all",      label:"Todo",            dot:"#5b6770" },
+      { key:"autodiag", label:"Autodiagnóstico", dot:VIOLET },
+      { key:"obs",      label:"Observación",     dot:"#00a096" },
+      { key:"acc",      label:"Acción",          dot:VIOLET }
+    ];
+    const filterChips = chipDefs.map(cd => {
+      const on = filter === cd.key;
+      return { label:cd.label, dot:cd.dot, active:on,
+        bg: on ? "#23303a" : "#fff", color: on ? "#fff" : "#5b6770",
+        border: on ? "#23303a" : "#e2dccf",
+        set:() => this.setState({ filter:cd.key }) };
+    });
+    const showAutodiag = filter === "all" || filter === "autodiag";
+    const visibleTools = filter === "all" ? tools
+      : filter === "autodiag" ? []
+      : tools.filter(t => t.catKey === filter);
+
+    let active = {};
+    if(open !== null){
+      const t = this.data[open], color = this.cats[t.cat].color, tn = tint(color);
+      active = {
+        title:t.title, desc:t.desc, icon:t.icon, momento:t.momento,
+        catLabel:this.cats[t.cat].label, color, tint:tn, tintBorder:color+"33", fromAd:this.state.fromAd,
+        porqueLead: t.porqueLead ? this.richFull(t.porqueLead, color) : "",
+        porqueParas: (Array.isArray(t.porque) ? t.porque : (t.porque ? [t.porque] : [])).map(p => this.richFull(p, color)),
+        hasPorque: !!(t.porqueLead || t.stat || t.revisa || (t.porque && (Array.isArray(t.porque) ? t.porque.length : true))),
+        stat: t.stat ? { text: this.richFull(t.stat.text, color), source: t.stat.source } : null,
+        revisa: t.revisa ? { label: t.revisa.label, text: this.richFull(t.revisa.text, color) } : null,
+        blocks: t.blocks.map((b,bi) => {
+          const o = { label:b.label, hIcon:b.icon || this.headerIcon(b.kind),
+            isPrompts:b.kind==="prompts", isCheck:b.kind==="check",
+            isIdeas:b.kind==="ideas", isTerms:b.kind==="terms", isNote:b.kind==="note",
+            isWrite:b.kind==="write", isLinks:b.kind==="links",
+            isCheckgroups:b.kind==="checkgroups", isForo:b.kind==="foro", isStrategies:b.kind==="strategies" };
+          if(b.kind === "prompts"){ o.items = b.items.map(s => R(s)); }
+          else if(b.kind === "check"){
+            o.items = b.items.map((text,ii) => {
+              const key = open+"-"+bi+"-"+ii, ck = !!checks[key];
+              return { text:R(text), checked:ck, boxBg: ck ? color : "#fff", toggle:() => this.setCheck(key) };
+            });
+          }
+          else if(b.kind === "checkgroups"){
+            o.groups = b.groups.map((g,gi) => ({
+              title:g.title,
+              items:g.items.map((text,ii) => {
+                const key = open+"-"+bi+"-"+gi+"-"+ii, ck = !!checks[key];
+                return { text:R(text), checked:ck, boxBg: ck ? color : "#fff", toggle:() => this.setCheck(key) };
+              })
+            }));
+          }
+          else if(b.kind === "foro"){ o.text = b.text; }
+          else if(b.kind === "strategies"){
+            o.items = b.items.map(it => ({
+              n:it.n, title:it.title, quote:it.quote || "", takeaway:it.takeaway || "",
+              hasSteps: !!(it.steps && it.steps.length),
+              steps: (it.steps || []).map(sp => ({ t:sp.t, d:sp.d })) }));
+          }
+          else if(b.kind === "ideas"){
+            o.items = b.items.map(it => ({ label:it.label, quote: it.quote ? R(it.quote) : "",
+              hasLines: !!(it.lines && it.lines.length), lines: (it.lines || []).map(l => R(l)), foot: it.foot ? R(it.foot) : "" }));
+          }
+          else if(b.kind === "terms"){ o.items = b.items; o.foot = b.foot ? R(b.foot) : ""; }
+          else if(b.kind === "note"){ o.items = b.items.map(it => ({ icon:it.icon, text:R(it.text), sub:it.sub || "" })); }
+          else if(b.kind === "links"){ o.items = b.items.map(it => ({ icon:it.icon, text:it.text, href:it.href })); }
+          else if(b.kind === "write"){
+            const key = open+"-"+bi;
+            o.prompt = b.prompt; o.value = texts[key] || ""; o.onInput = (e) => this.setText(key, e.target.value);
+          }
+          return o;
+        })
+      };
+    }
+
+    const adIsResults = adOpen && adStep >= 6;
+    const adIsQuestion = adOpen && adStep < 6;
+    let adQuestionText = "", adDimension = "", adOptions = [], adCanNext = false;
+    if(adIsQuestion){
+      const q = this.adData[adStep];
+      adQuestionText = q.q; adDimension = q.label;
+      const sel = adAnswers[adStep];
+      adCanNext = sel !== undefined;
+      const letters = ["A","B","C","D"];
+      adOptions = q.opts.map((text,oi) => {
+        const isSel = sel === oi;
+        return { letter:letters[oi], text, selected:isSel,
+          border: isSel ? VIOLET : "#e7e1d4", bg: isSel ? VIOLET+"0f" : "#fff",
+          chipBg: isSel ? VIOLET : "#f1ece1", chipColor: isSel ? "#fff" : "#9aa1a8",
+          select:() => this.setState(s => ({ adAnswers:{ ...s.adAnswers, [adStep]: oi } }), () => this.persist()) };
+      });
+    }
+    let adRecs = [], adMessage = [], adCierre = "";
+    if(adIsResults){
+      adMessage = this.recsMessage().map(p => this.richFull(p, VIOLET));
+      adCierre = this.adCierre;
+      adRecs = this.computeRecs().map(i => {
+        const t = this.data[i], c = this.cats[t.cat].color;
+        return { title:t.title, icon:t.icon, color:c, catLabel:this.cats[t.cat].label,
+          open:() => this.openTool(i, true) };
+      });
+    }
+
+    return {
+      tools, active, modalOpen: open !== null,
+      filterChips, showAutodiag, visibleTools,
+      closeModal: () => { const slug = open!=null ? this.data[open].slug : null; if(slug && window.location.hash === "#"+slug) window.location.hash = ""; this.setState({ open:null, fromAd:false }); },
+      backToAd: () => { const slug = open!=null ? this.data[open].slug : null; if(slug && window.location.hash === "#"+slug) window.location.hash = "autodiagnostico"; this.setState({ open:null, adOpen:true, fromAd:false }); },
+      stop: (e) => e.stopPropagation(),
+      saveFicha: () => window.print(),
+      saveAd: () => window.print(),
+      foroOpen: this.state.foroOpen,
+      creaCopied: this.state.creaCopied,
+      creaNotCopied: !this.state.creaCopied,
+      openForo: () => this.setState({ foroOpen:true }),
+      closeForo: () => this.setState({ foroOpen:false }),
+      copyCrea: () => { const code = "S38K-2MHB-SV5RS"; let ok = false; try { const ta = document.createElement("textarea"); ta.value = code; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.top = "-9999px"; document.body.appendChild(ta); ta.select(); ta.setSelectionRange(0, code.length); ok = document.execCommand("copy"); document.body.removeChild(ta); } catch(e) {} if (!ok && navigator.clipboard) { try { navigator.clipboard.writeText(code); } catch(e) {} } this.setState({ creaCopied:true }); setTimeout(() => this.setState({ creaCopied:false }), 1600); },
+      showBoot, bootFading,
+      adOpen, adIsQuestion, adIsResults,
+      adProgressLabel: "Pregunta " + (Math.min(adStep,5)+1) + " de 6",
+      adProgressPct: (((Math.min(adStep,6))/6)*100) + "%",
+      adDimension, adQuestionText, adOptions,
+      adShowBack: adStep > 0,
+      adNextLabel: adStep >= 5 ? "Ver mi devolución" : "Siguiente",
+      adNextBg: adCanNext ? VIOLET : "#cdbcd3",
+      adNextCursor: adCanNext ? "pointer" : "not-allowed",
+      adCtaLabel: (Object.keys(adAnswers).length >= 6) ? "Ver mi devolución" : "Hacé el autodiagnóstico",
+      adMessage, adCierre, adRecs,
+      startAd: () => { const done = Object.keys(adAnswers).length >= 6; window.location.hash = "autodiagnostico"; this.setState({ adOpen:true, adStep: done ? 6 : 0 }); },
+      closeAd: () => { if(window.location.hash === "#autodiagnostico") window.location.hash = ""; this.setState({ adOpen:false }); },
+      adNext: () => { if(adAnswers[adStep] === undefined) return; this.setState(s => ({ adStep: s.adStep + 1 })); },
+      adBack: () => this.setState(s => ({ adStep: Math.max(0, s.adStep - 1) })),
+      restartAd: () => this.setState({ adStep:0, adAnswers:{} }, () => this.persist()),
+      goHerramientas: () => { this.setState({ adOpen:false }); window.location.hash = "#recursos"; }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
